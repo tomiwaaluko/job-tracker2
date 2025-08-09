@@ -1,6 +1,7 @@
 import OpenAI from "openai";
 import { createWorker } from "tesseract.js";
 import { env } from "~/env";
+import { z } from "zod";
 
 export interface ParsedJobData {
   company: string;
@@ -10,6 +11,16 @@ export interface ParsedJobData {
   notes?: string;
   sourceImageUrl?: string;
 }
+
+// Runtime validation for AI output
+const ParsedJobDataSchema = z.object({
+  company: z.string(),
+  title: z.string(),
+  status: z.enum(["applied", "interview", "offer", "rejected"]),
+  date: z.string(),
+  notes: z.string().optional(),
+  sourceImageUrl: z.string().optional(),
+});
 
 // Initialize OpenAI client only if an API key is provided
 const openai = env.OPENAI_API_KEY
@@ -61,19 +72,8 @@ Return ONLY valid JSON with these exact field names. If you cannot find certain 
     const content = response.choices[0]?.message?.content;
     if (!content) return null;
 
-    // Parse the JSON response
-    const parsed = JSON.parse(content) as ParsedJobData;
-
-    // Validate and normalize the status
-    const validStatuses = [
-      "applied",
-      "interview",
-      "offer",
-      "rejected",
-    ] as const;
-    if (!validStatuses.includes(parsed.status)) {
-      parsed.status = "applied"; // Default fallback
-    }
+  // Parse and validate the JSON response
+  const parsed = ParsedJobDataSchema.parse(JSON.parse(content));
 
     // Add source image URL
     parsed.sourceImageUrl = imageUrl;
