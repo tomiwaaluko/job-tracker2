@@ -72,8 +72,8 @@ Return ONLY valid JSON with these exact field names. If you cannot find certain 
     const content = response.choices[0]?.message?.content;
     if (!content) return null;
 
-  // Parse and validate the JSON response
-  const parsed = ParsedJobDataSchema.parse(JSON.parse(content));
+    // Parse and validate the JSON response
+    const parsed = ParsedJobDataSchema.parse(JSON.parse(content));
 
     // Add source image URL
     parsed.sourceImageUrl = imageUrl;
@@ -120,7 +120,7 @@ export function parseJobDataFromText(
   let company = "";
   let title = "";
   let status: ParsedJobData["status"] = "applied";
-  let date = new Date().toISOString().split("T").at(0) ?? ""; // Default to today (never undefined)
+  let date = new Date().toISOString().substring(0, 10); // Get YYYY-MM-DD format
   let notes = "";
 
   // Look for company name (often in headers or near "Company:")
@@ -221,7 +221,7 @@ export async function extractJobDataFromScreenshot(
     company: "Unknown Company",
     title: "Unknown Position",
     status: "applied",
-    date: new Date().toISOString().split("T").at(0) ?? "",
+    date: new Date().toISOString().substring(0, 10),
     notes: "Failed to extract data from screenshot",
     sourceImageUrl: imageUrl,
   };
