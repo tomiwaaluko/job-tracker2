@@ -1,16 +1,23 @@
 import Link from "next/link";
 import Image from "next/image";
 import { auth } from "~/server/auth";
+import { ThemeToggle } from "~/components/ThemeToggle";
 
 export default async function Home() {
   const session = await auth();
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      {/* Navigation */}
+      <nav className="flex items-center justify-between p-4">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Job Tracker</h1>
+        <ThemeToggle />
+      </nav>
+      
       <div className="container mx-auto px-4 py-16">
         <div className="text-center">
-          <h1 className="mb-6 text-5xl font-bold text-gray-900">Job Tracker</h1>
-          <p className="mx-auto mb-8 max-w-2xl text-xl text-gray-600">
+          <h1 className="mb-6 text-5xl font-bold text-gray-900 dark:text-white">Job Tracker</h1>
+          <p className="mx-auto mb-8 max-w-2xl text-xl text-gray-600 dark:text-gray-300">
             Track your job applications with AI-powered screenshot analysis.
             Upload job postings and let AI extract the details automatically.
           </p>
@@ -28,7 +35,7 @@ export default async function Home() {
                       className="mx-auto mb-2 h-16 w-16 rounded-full"
                     />
                   )}
-                  <p className="text-gray-700">
+                  <p className="text-gray-700 dark:text-gray-300">
                     Welcome back, {session.user.name}
                   </p>
                 </div>
@@ -57,7 +64,7 @@ export default async function Home() {
             </div>
           ) : (
             <div className="space-y-6">
-              <p className="mb-6 text-gray-600">
+              <p className="mb-6 text-gray-600 dark:text-gray-300">
                 Sign in to start tracking your job applications
               </p>
               <Link
@@ -70,32 +77,32 @@ export default async function Home() {
           )}
 
           <div className="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-8 md:grid-cols-3">
-            <div className="rounded-lg bg-white p-6 text-center shadow-sm">
+            <div className="rounded-lg bg-white dark:bg-gray-800 p-6 text-center shadow-sm">
               <div className="mb-4 text-3xl">📸</div>
-              <h3 className="mb-2 text-xl font-semibold text-gray-900">
+              <h3 className="mb-2 text-xl font-semibold text-gray-900 dark:text-white">
                 Upload Screenshots
               </h3>
-              <p className="text-gray-600">
+              <p className="text-gray-600 dark:text-gray-300">
                 Drag and drop job posting screenshots for instant analysis
               </p>
             </div>
 
-            <div className="rounded-lg bg-white p-6 text-center shadow-sm">
+            <div className="rounded-lg bg-white dark:bg-gray-800 p-6 text-center shadow-sm">
               <div className="mb-4 text-3xl">🤖</div>
-              <h3 className="mb-2 text-xl font-semibold text-gray-900">
+              <h3 className="mb-2 text-xl font-semibold text-gray-900 dark:text-white">
                 AI Extraction
               </h3>
-              <p className="text-gray-600">
+              <p className="text-gray-600 dark:text-gray-300">
                 Let AI automatically extract company, position, and details
               </p>
             </div>
 
-            <div className="rounded-lg bg-white p-6 text-center shadow-sm">
+            <div className="rounded-lg bg-white dark:bg-gray-800 p-6 text-center shadow-sm">
               <div className="mb-4 text-3xl">📊</div>
-              <h3 className="mb-2 text-xl font-semibold text-gray-900">
+              <h3 className="mb-2 text-xl font-semibold text-gray-900 dark:text-white">
                 Track Progress
               </h3>
-              <p className="text-gray-600">
+              <p className="text-gray-600 dark:text-gray-300">
                 Monitor applications, interviews, and offers in one dashboard
               </p>
             </div>
